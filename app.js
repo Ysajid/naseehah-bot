@@ -21,7 +21,8 @@ const
   request = require('request'),
   express = require('express'),
   body_parser = require('body-parser'),
-  app = express().use(body_parser.json()); // creates express http server
+  app = express().use(body_parser.json()), // creates express http server
+  data = require('./en.sahih.json');
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -73,8 +74,12 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
 
     // Create the payload for a basic text message
+    var r = /quran.*(\d*)\s?[:,]\s?(\d*)/ig;
+    var match = myRegexp.exec(received_message.text);
+    
+
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
+      "text": data[match[0]+"|"+match[1]].translation
     }
   }
 
