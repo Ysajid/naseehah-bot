@@ -74,18 +74,20 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
 
     // Create the payload for a basic text message
-    var r = /quran.*(\d*)\s?[:,]\s?(\d*)/ig;
-    var match = myRegexp.exec(received_message.text);
+    var r = /quran[\s.]*(\d*)\s?[:,]\s?(\d*)/ig;
+    var match = r.exec(received_message.text);
     
+    console.log(match);
 
     response = {
-      "text": data[match[0]+"|"+match[1]].translation
+      "text": data[match[1]+"|"+match[2]].translation
     }
   }
 
   // Sends the response message
   callSendAPI(sender_psid, response);
 }
+
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
